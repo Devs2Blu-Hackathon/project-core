@@ -1,0 +1,44 @@
+name: 🔄 Sync Submodules (Main)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: write 
+
+jobs:
+  sync-main:
+    name: Update Pointers to Latest Main
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: ⬇️ Checkout Core
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ADMIN_TOKEN }}
+          submodules: true 
+          fetch-depth: 0   
+
+      - name: 🔄 Update Submodules
+        run: |
+
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          echo "Atualizando todos os submódulos para a última versão da branch MAIN remota..."
+          git submodule update --remote --merge
+
+      - name: 💾 Commit & Push Updates
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            echo "🚨 Mudanças detectadas! Os serviços (Java/C#/Infra) evoluíram."
+            
+            git add .
+            git commit -m "chore(submodules): update references to latest main commits"
+            git push
+            
+            echo "✅ Core atualizado com sucesso!"
+          else
+            echo "✅ Tudo ok! O Core já está apontando para as versões mais recentes."
+          fi

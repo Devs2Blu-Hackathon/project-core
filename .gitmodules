@@ -1,0 +1,12 @@
+[submodule "service-java"]
+	path = service-java
+	url = https://github.com/Devs2Blu-Hackathon/service-java.git
+[submodule "service-csharp"]
+	path = service-csharp
+	url = https://github.com/Devs2Blu-Hackathon/service-csharp.git
+[submodule "service-flutter"]
+	path = service-flutter
+	url = https://github.com/Devs2Blu-Hackathon/service-flutter.git
+[submodule "service-devops"]
+	path = service-devops
+	url = https://github.com/Devs2Blu-Hackathon/service-devops.git
